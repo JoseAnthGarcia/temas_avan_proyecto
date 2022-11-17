@@ -20,6 +20,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
 })
 
+app.get('/temperatura', (req, res) => {
+  res.sendFile(path.join(__dirname, '/temperatura.html'));
+})
+
+app.get('/presencia', (req, res) => {
+  res.sendFile(path.join(__dirname, '/presencia.html'));
+})
+
 /************************ SocketIO ***********/
 const socketIO = require("socket.io");
 const io = socketIO(httpServer);
