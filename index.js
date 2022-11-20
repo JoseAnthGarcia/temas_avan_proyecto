@@ -1,5 +1,5 @@
 //Para la conexion con Mongo DB -> Ojo se marca error es porque se acabo el lab de 4 horas de Agustin
-require('./conection')
+//require('./conection') -> antes de lanzar avisar a agustin
 //
 const express = require('express')
 const http = require('http');
