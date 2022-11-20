@@ -10,6 +10,10 @@ const port = 3000
 app.set('port', port);
 app.use(express.static(__dirname));
 
+// Vistas ejs dinamicas
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 let httpServer = http.createServer(app);
 httpServer.listen(port);
 
@@ -20,15 +24,17 @@ httpServer.on('listening', function () {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/index.html'));
+  res.render('index')
 })
 
 app.get('/temperatura', (req, res) => {
-  res.sendFile(path.join(__dirname, '/temperatura.html'));
+  let temperatura = [] //esta seria la data obtenida del mongo db
+  res.render('temperatura', {temperatura:temperatura})
 })
 
 app.get('/presencia', (req, res) => {
-  res.sendFile(path.join(__dirname, '/presencia.html'));
+  let presencia = [] //esta seria la data obtenida del mongo db
+  res.render('presencia', {presencia:presencia})
 })
 
 /************************ SocketIO ***********/
@@ -72,8 +78,7 @@ connection.connect().then((result) => {
   else console.log("** AWS iot core: a new session is completed!");
 
   // SUSCRIBIRSE
-  connection.subscribe("temp", mqtt.QoS.AtLeastOnce, onMessageAws)
-  connection.subscribe("pres", mqtt.QoS.AtLeastOnce, onMessageAws)
+  connection.subscribe("esp32/medicion", mqtt.QoS.AtLeastOnce, onMessageAws)
 
 }).catch((err) => {
   console.error(err);
@@ -88,19 +93,24 @@ let onMessageAws = (topic, payload) => {
   console.log("Received message:", topic, payload);
 
   switch (topic) {
-    case "temp":
+    case "esp32/medicion":
       io.sockets.emit("var_temp", {
-        valor: payload.valor,
+        valor: payload.temperatura,
+        timestamp: currentDate
+      });
+      io.sockets.emit("var_hum", {
+        valor: payload.humedad,
         timestamp: currentDate
       });
       break;
+    /** 
     case "pres":
       io.sockets.emit("var_pres", {
         valor: payload.valor,
         timestamp: currentDate
       });
       break;
-
+    **/
     default:
       console.log("Topic invalido");
       break;
