@@ -54,8 +54,7 @@ connection.connect().then((result) => {
   else console.log("** AWS iot core: a new session is completed!");
 
   // SUSCRIBIRSE
-  connection.subscribe("temp", mqtt.QoS.AtLeastOnce, onMessageAws)
-  connection.subscribe("pres", mqtt.QoS.AtLeastOnce, onMessageAws)
+  connection.subscribe("esp32/medicion", mqtt.QoS.AtLeastOnce, onMessageAws)
 
 }).catch((err) => {
   console.error(err);
@@ -70,19 +69,24 @@ let onMessageAws = (topic, payload) => {
   console.log("Received message:", topic, payload);
 
   switch (topic) {
-    case "temp":
+    case "esp32/medicion":
       io.sockets.emit("var_temp", {
-        valor: payload.valor,
+        valor: payload.temperatura,
+        timestamp: currentDate
+      });
+      io.sockets.emit("var_hum", {
+        valor: payload.humedad,
         timestamp: currentDate
       });
       break;
+    /** 
     case "pres":
       io.sockets.emit("var_pres", {
         valor: payload.valor,
         timestamp: currentDate
       });
       break;
-
+    **/
     default:
       console.log("Topic invalido");
       break;
