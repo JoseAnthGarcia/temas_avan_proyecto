@@ -17,7 +17,53 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="socket.io/socket.io.js"></script>
+        <script>
+            window.onload = function() {
+                const socket = io.connect('http://localhost:3000')
+                const button = $("#reload");
 
+                function reloadFunc() {
+                    console.log("click")
+                    socket.emit('tempCall', id)
+                }
+
+
+                // Check for connection
+                socket.on('data', function (tempData) {
+                    console.log(tempData);
+                    var dataPoints = [];
+                    var chart = new CanvasJS.Chart("myAreaChart", {
+                        theme: "light2",
+                        axisX: {
+                            valueFormatString: "DD/MM/YY"
+                        },
+                        data: [{
+                            type: "line",
+                            dataPoints: dataPoints
+                        }]
+                    });
+                    updateData();
+
+                    // Initial Values
+                    var newDataCount = 6;
+
+                    function addData(data) {
+                        if(newDataCount != 1) {
+                            $.each(data, function (key, value) {
+                                dataPoints.push({x: value[0], y: parseInt(value[1])});
+                            });
+                        }
+
+                        newDataCount = 1;
+                        chart.render();
+                    }
+                    function updateData() {addData(tempData);}
+                });
+
+            }
+        </script>
 
     </head>
 
@@ -93,7 +139,7 @@
                               </div>
                             </div>
 
-                            <div class="card shadow mb-4">
+                            <!--div class="card shadow mb-4">
                               <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
                               </div>
@@ -103,7 +149,7 @@
                                 </div>
                                 <hr>
                               </div>
-                            </div>
+                            </div-->
                           </div>
                         </div>
                     </div>
@@ -131,6 +177,7 @@
 
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 
         <!-- Page level plugins -->
         <script src="vendor/chart.js/Chart.min.js"></script>
