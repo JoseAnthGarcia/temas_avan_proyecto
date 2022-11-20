@@ -1,9 +1,11 @@
+//Para la conexion con Mongo DB -> Ojo se marca error es porque se acabo el lab de 4 horas de Agustin
+require('./conection')
+//
 const express = require('express')
 const http = require('http');
 const path = require('path');
-
+//app.use(express.json()); -> Si en caso vayan requerir usar JSON caso contrario borrarlo
 const app = express()
-
 const port = 3000
 app.set('port', port);
 
@@ -84,6 +86,26 @@ let onMessageAws = (topic, payload) => {
       console.log("Topic invalido");
       break;
   }
+  //Para Guardar el valor dentro de MongoDB 
+  /** 
+  var register = new Register({
+      temperatura: req.body.temperatura, -> cambiar req.body.temperatura por el valor de temperatura
+      humedad: req.body.humedad, -> cambiar req.body.humedad por el valor de humedad
+      timeStamp: Date.now() -> cambiar Date.now() por el valor de timeStamp que se vaya usar
+  });
+  register.save((err,document)=>{
+      if(err) console.error(err);
+      console.log(document);
+  });
+  **/
+ //Para obtener el listado de datos en mongoDB
+  /** 
+  async function list(){
+    const registros = await Register.find();
+    console.log(registros)
+    return registros;
+  }
+   **/
 }
 
 /*********************************************************/
