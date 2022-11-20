@@ -10,6 +10,10 @@ const port = 3000
 app.set('port', port);
 app.use(express.static(__dirname));
 
+// Vistas ejs dinamicas
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 let httpServer = http.createServer(app);
 httpServer.listen(port);
 
@@ -20,15 +24,17 @@ httpServer.on('listening', function () {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/index.html'));
+  res.render('index')
 })
 
 app.get('/temperatura', (req, res) => {
-  res.sendFile(path.join(__dirname, '/temperatura.html'));
+  let temperatura = [] //esta seria la data obtenida del mongo db
+  res.render('temperatura', {temperatura:temperatura})
 })
 
 app.get('/presencia', (req, res) => {
-  res.sendFile(path.join(__dirname, '/presencia.html'));
+  let presencia = [] //esta seria la data obtenida del mongo db
+  res.render('presencia', {presencia:presencia})
 })
 
 /************************ SocketIO ***********/
