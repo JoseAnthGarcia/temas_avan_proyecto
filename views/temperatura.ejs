@@ -21,7 +21,43 @@
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script>
-            $(function(){
+          $( document ).ready(function() {
+            var data = [];
+          var dataSeries = { type: "line" };
+          var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
+
+          dataSeries.dataPoints = dataPoints;
+          data.push(dataSeries);
+          //Better to construct options first and then pass it as a parameter
+            var options = {
+                zoomEnabled: true,
+                animationEnabled: true,
+                title: {
+                  text: "Try Zooming - Panning"
+                },
+                axisY: {
+                  lineThickness: 1
+                },
+                data: data  // random data
+              };
+
+              var chart_temp = new CanvasJS.Chart("charTemperatura", options);
+              chart_temp.render();
+
+              let socket = io();
+              socket.on("var_temp", function (data) {
+                // data = { humedad: 21.71, temperatura: 67.7, timestamp: 1669043595 }
+                console.log(data);
+                let humedad = data.humedad
+                let temperatura = data.temperatura
+                let timestamp = data.timestamp
+                chart_temp.options.data[0].dataPoints.push({x: timestamp, y: temperatura})
+                chart_temp.render();
+              });
+
+          });
+    
+            /* $(function(){
                 let socket = io('http://localhost:3000');
 
                 // Check for connection
@@ -94,7 +130,7 @@
                     }
 
                 });
-            });
+            }); */
 
         </script>
 
@@ -198,14 +234,6 @@
         <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <script src="./js/sb-admin-2.min.js"></script>
-
-
-        <script src="./vendor/chart.js/Chart.min.js"></script>
-
-        <!--script src="./vendor/chart.js/canvasjs.min.js"></script-->
-        <script src="./js/demo/chart-area-demo.js"></script>
-        <!--script src="./js/demo/chart-pie-demo.js"></script-->
-        <script src="./js/demo/chart-bar-demo.js"></script>
 
     </body>
 

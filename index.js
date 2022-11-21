@@ -44,23 +44,6 @@ const io = socketIO(httpServer);
 io.on("connection", (socket) => {
   console.log("Nueva conexion");
 
-  let dataenviar = []
-  for (let i = 1; i < 59; i++) {
-    let tm = "02:"+i+":00";
-    let v = i;
-    dataenviar.push([tm,v]);
-  }
-  io.emit("var_temp",dataenviar);
-
-  let prom = []
-  prom.push(["Lunes",20])
-  prom.push(["Martes",15])
-  prom.push(["Miercoles",13])
-  prom.push(["Jueves",18])
-  prom.push(["Viernes",19])
-  prom.push(["Sabado",17])
-  io.emit("temppromxdia",prom);
-
 });
 io.on("connect_error", (err) => {
   console.log(`connect_error due to ${err.message}`);
@@ -94,23 +77,9 @@ let onMessageAws = (topic, payload) => {
 
   switch (topic) {
     case "esp32/medicion":
-      io.sockets.emit("var_temp", {
-        valor: payload.temperatura,
-        timestamp: currentDate
-      });
-      io.sockets.emit("var_hum", {
-        valor: payload.humedad,
-        timestamp: currentDate
-      });
+      io.sockets.emit("var_temp", payload);
+      //Aqui se guarda a DB
       break;
-    /** 
-    case "pres":
-      io.sockets.emit("var_pres", {
-        valor: payload.valor,
-        timestamp: currentDate
-      });
-      break;
-    **/
     default:
       console.log("Topic invalido");
       break;
