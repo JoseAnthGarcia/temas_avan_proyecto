@@ -22,11 +22,9 @@
         <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script>
           $( document ).ready(function() {
-              var data = [];
-              console.log(`temperatura: ${temperatura}`);
               var dataSeries = { type: "line" };
               var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
-
+              
               dataSeries.dataPoints = dataPoints;
               data.push(dataSeries);
               //Better to construct options first and then pass it as a parameter
