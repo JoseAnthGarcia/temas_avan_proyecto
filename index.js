@@ -15,8 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //Para obtener el listado de datos en mongoDB
 async function list(){
-  const registros = await Register.find();
-  console.log(registros)
+  const registros = await Register.find().select({ _id: 0 });
   return registros;
 }
 
@@ -33,9 +32,10 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-app.get('/temperatura', (req, res) => {  
-  registrosObtenidos  = list();
+app.get('/temperatura', async (req, res) => {  
+  registrosObtenidos  = await list();
   let temperatura = [registrosObtenidos] //esta seria la data obtenida del mongo db
+  console.log(`data2 ${temperatura}`);
   res.render('temperatura', {temperatura:temperatura})
 })
 
@@ -77,11 +77,8 @@ connection.connect().then((result) => {
 
 let onMessageAws = (topic, payload) => {
 
-  let currentDate = getCurrentDate();
-
   payload = decoder.decode(payload);
   payload = JSON.parse(payload);
-  console.log("Received message:", topic, payload);
 
   switch (topic) {
     case "esp32/medicion":
