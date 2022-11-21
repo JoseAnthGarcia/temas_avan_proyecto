@@ -1,5 +1,5 @@
 //Para la conexion con Mongo DB -> Ojo se marca error es porque se acabo el lab de 4 horas de Agustin
-//require('./conection') -> antes de lanzar avisar a agustin
+require('./conection') 
 //
 const express = require('express')
 const http = require('http');
@@ -79,23 +79,22 @@ let onMessageAws = (topic, payload) => {
     case "esp32/medicion":
       io.sockets.emit("var_temp", payload);
       //Aqui se guarda a DB
+      var register = new Register({
+        temperatura: payload.temperatura, 
+        humedad: payload.humedad,
+        timeStamp: payload.timestamp,
+        presencia: payload.presencia,
+      });
+       //Para Guardar el valor dentro de MongoDB 
+      register.save((err,document)=>{
+        if(err) console.error(err);
+        console.log(document);
+      });
       break;
     default:
       console.log("Topic invalido");
       break;
   }
-  //Para Guardar el valor dentro de MongoDB 
-  /** 
-  var register = new Register({
-      temperatura: req.body.temperatura, -> cambiar req.body.temperatura por el valor de temperatura
-      humedad: req.body.humedad, -> cambiar req.body.humedad por el valor de humedad
-      timeStamp: Date.now() -> cambiar Date.now() por el valor de timeStamp que se vaya usar
-  });
-  register.save((err,document)=>{
-      if(err) console.error(err);
-      console.log(document);
-  });
-  **/
  //Para obtener el listado de datos en mongoDB
   /** 
   async function list(){
@@ -105,8 +104,7 @@ let onMessageAws = (topic, payload) => {
   }
    **/
 }
-
-/*********************************************************/
+/*****************Opcional!!**************************/
 function getCurrentDate() {
   let receivedDate = new Date();
   receivedDate.setHours(receivedDate.getHours() - 5); //bajarlo a america lima
