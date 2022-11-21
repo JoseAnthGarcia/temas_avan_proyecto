@@ -81,7 +81,6 @@ let onMessageAws = (topic, payload) => {
 
   payload = decoder.decode(payload);
   payload = JSON.parse(payload);
-  console.log("Received message:", topic, payload);
 
   switch (topic) {
     case "esp32/medicion":
