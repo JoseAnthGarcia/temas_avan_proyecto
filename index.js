@@ -2,6 +2,8 @@
 require('./conection') 
 //
 const express = require('express')
+//var router = require("express").Router();
+
 const http = require('http');
 const path = require('path');
 //app.use(express.json()); -> Si en caso vayan requerir usar JSON caso contrario borrarlo
@@ -32,16 +34,18 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-app.get('/temperatura', async (req, res) => {  
-  registrosObtenidos  = await list();
-  let temperatura = [registrosObtenidos] //esta seria la data obtenida del mongo db
-  console.log(`data2 ${temperatura}`);
-  res.render('temperatura', {temperatura:temperatura})
+app.get('/temperatura', (req, res) => {
+  //registrosObtenidos  = await list();
+  //let temperatura = [registrosObtenidos] //esta seria la data obtenida del mongo db
+  //console.log(`data2 ${temperatura}`);
+  //res.render('temperatura', {temperatura:temperatura})
+  res.render("temperatura")
 })
 
 app.get('/presencia', (req, res) => {
-  let presencia = [] //esta seria la data obtenida del mongo db
-  res.render('presencia', {presencia:presencia})
+  //let presencia = [] //esta seria la data obtenida del mongo db
+  //res.render('presencia', {presencia:presencia})
+  res.render("presencia")
 })
 
 /************************ SocketIO ***********/
@@ -109,3 +113,18 @@ function getCurrentDate() {
   let receivedDateUTC_5 = receivedDate.toISOString().slice(0, 19).replace('T', ' ');
   return receivedDateUTC_5;
 }
+
+app.get("/datitos",(req,res) =>{
+  console.log("dentro del api")
+
+  //Register.find().select({ _id: 0 })
+  Register.find((err,val) => {
+    if(err){
+      console.log(err)
+    }else{
+      res.json(val)
+    }
+
+  })
+
+});

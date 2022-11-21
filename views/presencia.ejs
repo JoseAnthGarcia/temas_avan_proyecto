@@ -10,13 +10,92 @@
         <title>Proyecto</title>
 
         <!-- Custom fonts for this template-->
-        <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link
-                href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-                rel="stylesheet">
+                <link
+                        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+                        rel="stylesheet">
 
-        <!-- Custom styles for this template-->
-        <link href="./css/sb-admin-2.css" rel="stylesheet" type="text/css">
+                <!-- Custom styles for this template-->
+                <link href="./css/sb-admin-2.css" rel="stylesheet" type="text/css">
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+        <script>
+             $( document ).ready(function() {
+
+
+             /*var dataPoints3 = [];
+
+             $.get("http://localhost:3000/datitos")
+             .done(function (msg) {
+
+                  for (var j = 0; j < msg.length; j++){
+                      var date = new Date(parseInt(msg[j].timeStamp))
+                      var horita = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+                      dataPoints3.push({label: horita, y: msg[j].presencia})
+                  }
+
+                  var data3 = [];
+                  var dataSeries3 = { type: "line" };
+
+                  dataSeries3.dataPoints = dataPoints3;
+                  data3.push(dataSeries3);
+
+                  var options3 = {
+                      zoomEnabled: true,
+                      animationEnabled: true,
+                      axisX: {
+                         labelAngle: -50,
+                         labelFontColor: "rgb(0,75,141)",
+                         },
+                     axisY: {
+                         lineThickness: 1,
+                         suffix: "°C"
+                         },
+                         data: data3
+                         };
+
+                  var chart_presencia = new CanvasJS.Chart("mypresencia", options3);
+                      chart_presencia.render();
+                      chart_presencia.render();
+
+
+
+
+
+             }).fail(function (err) {
+                  console.log("an error has ocurred")
+             });*/
+
+
+                  let socket = io();
+                  socket.on("var_temp", function (data) {
+                     let timestamp = data.timestamp
+                     let presencia = data.presencia
+
+                     //chart_temp.options.data[0].dataPoints.push({label: timestamp, y: temperatura})
+
+                     //chart_hum.options.data[0].dataPoints.push({label: timestamp, y: humedad})
+
+                     //chart_temp.render();
+                     //chart_hum.render();
+
+                     if(presencia == true){
+                        document.getElementById('foto').src="presencia.PNG";
+
+                        document.getElementById('mensajito').textContent = "HUBO PRESENCIA DE UN SER HUMANO";
+
+                     }else{
+                        document.getElementById('foto').src="no_presencia.PNG";
+
+                        document.getElementById('mensajito').textContent = "NO HUBO PRESENCIA DE UN SER HUMANO";
+                     }
+
+                  });
+
+             });
+        </script>
 
 
     </head>
@@ -77,35 +156,18 @@
 
                         <div class="row" style="margin-left: 350px">
 
-                            <div class="col-xl-8 col-lg-7">
-
-
+                            <div class="col-xl-8 col-lg-7" style="margin-top:100px">
                                 <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <canvas id="myAreaChart"></canvas>
+                                        <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Presence</h6>
                                         </div>
-                                        <hr>
-                                    </div>
-                                </div>
+                                        <img id="foto" src="no_presencia.PNG" alt="" style="height:500px;width:300px;margin-left:270px">
 
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-bar">
-                                            <canvas id="myBarChart"></canvas>
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
+                                        <!--div id="mypresencia"></div-->
 
+                               </div>
+                               <h8 id="mensajito">NO HAY PRESENCIA</h8>
                             </div>
-
 
                         </div>
 
@@ -124,14 +186,13 @@
 
 
         <!-- Bootstrap core JavaScript-->
-        <script src="./vendor/jquery/jquery.min.js"></script>
-        <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+               <script src="./vendor/jquery/jquery.min.js"></script>
+               <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script src="./js/sb-admin-2.min.js"></script>
+               <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
+
+               <script src="./js/sb-admin-2.min.js"></script>
 
 
     </body>
