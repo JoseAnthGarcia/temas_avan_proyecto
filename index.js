@@ -51,7 +51,8 @@ io.on("connect_error", (err) => {
 
 /********************* aws iot core connection *****************/
 const aws = require('./utils/awsConnection');
-const { mqtt } = require('aws-iot-device-sdk-v2')
+const { mqtt } = require('aws-iot-device-sdk-v2');
+const Register = require('./models/Register');
 
 const connection = aws.getConnection();
 const decoder = new TextDecoder('utf8');
