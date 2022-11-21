@@ -13,6 +13,12 @@ app.use(express.static(__dirname));
 // Vistas ejs dinamicas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+//Para obtener el listado de datos en mongoDB
+async function list(){
+  const registros = await Register.find();
+  console.log(registros)
+  return registros;
+}
 
 let httpServer = http.createServer(app);
 httpServer.listen(port);
@@ -27,8 +33,9 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-app.get('/temperatura', (req, res) => {
-  let temperatura = [] //esta seria la data obtenida del mongo db
+app.get('/temperatura', (req, res) => {  
+  registrosObtenidos  = list();
+  let temperatura = [registrosObtenidos] //esta seria la data obtenida del mongo db
   res.render('temperatura', {temperatura:temperatura})
 })
 
@@ -96,14 +103,6 @@ let onMessageAws = (topic, payload) => {
       console.log("Topic invalido");
       break;
   }
- //Para obtener el listado de datos en mongoDB
-  /** 
-  async function list(){
-    const registros = await Register.find();
-    console.log(registros)
-    return registros;
-  }
-   **/
 }
 /*****************Opcional!!**************************/
 function getCurrentDate() {
