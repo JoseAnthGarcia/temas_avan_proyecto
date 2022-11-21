@@ -3,6 +3,6 @@ const registerSchema = new Schema({
 temperatura: Number,
 humedad: Number,
 timeStamp: String,
-presencia: boolean,
+presencia: Boolean,
 })
 module.exports = model('Register',registerSchema);
