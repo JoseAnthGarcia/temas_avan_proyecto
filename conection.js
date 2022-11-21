@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 //Connection
-const uri = 'mongodb://18.209.168.150:27017/TemasAvanzados';
+const uri = 'mongodb://35.173.210.217:27017/TemasAvanzados';
 
 mongoose.connect(uri,{
     useNewUrlParser:true,
