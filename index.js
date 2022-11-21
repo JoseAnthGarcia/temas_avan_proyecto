@@ -96,7 +96,7 @@ let onMessageAws = (topic, payload) => {
        //Para Guardar el valor dentro de MongoDB 
       register.save((err,document)=>{
         if(err) console.error(err);
-        console.log(document);
+        //console.log(document);
       });
       break;
     default:
