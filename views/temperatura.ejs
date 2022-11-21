@@ -22,115 +22,65 @@
         <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script>
           $( document ).ready(function() {
-            var data = [];
-          var dataSeries = { type: "line" };
-          var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
+              var data = [];
+              var dataSeries = { type: "line" };
+              var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
 
-          dataSeries.dataPoints = dataPoints;
-          data.push(dataSeries);
-          //Better to construct options first and then pass it as a parameter
-            var options = {
-                zoomEnabled: true,
-                animationEnabled: true,
-                title: {
-                  text: "Try Zooming - Panning"
-                },
-                axisY: {
-                  lineThickness: 1
-                },
-                data: data  // random data
-              };
+              dataSeries.dataPoints = dataPoints;
+              data.push(dataSeries);
+              //Better to construct options first and then pass it as a parameter
+                var options = {
+                    zoomEnabled: true,
+                    animationEnabled: true,
+                    axisY: {
+                      lineThickness: 1
+                    },
+                    data: data  // random data
+                  };
 
-              var chart_temp = new CanvasJS.Chart("charTemperatura", options);
-              chart_temp.render();
+            var data2 = [];
+              var dataSeries2 = { type: "line" };
+              var dataPoints2 = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
 
-              let socket = io();
-              socket.on("var_temp", function (data) {
-                // data = { humedad: 21.71, temperatura: 67.7, timestamp: 1669043595 }
-                console.log(data);
-                let humedad = data.humedad
-                let temperatura = data.temperatura
-                let timestamp = data.timestamp
-                chart_temp.options.data[0].dataPoints.push({x: timestamp, y: temperatura})
-                chart_temp.render();
-              });
+              dataSeries2.dataPoints = dataPoints2;
+              data2.push(dataSeries2);
+              //Better to construct options first and then pass it as a parameter
+              var options2 = {
+              zoomEnabled: true,
+              animationEnabled: true,
+              axisY: {lineThickness: 1},
+                     data: data};
+
+
+
+                  var chart_temp = new CanvasJS.Chart("charTemperatura", options);
+                  chart_temp.render();
+
+                  var chart_hum = new CanvasJS.Chart("charHumedad", options);
+                  chart_hum.render();
+
+
+
+
+                  let socket = io();
+                  socket.on("var_temp", function (data) {
+                    // data = { humedad: 21.71, temperatura: 67.7, timestamp: 1669043595 }
+                    console.log(data);
+                    let humedad = data.humedad
+                    let temperatura = data.temperatura
+                    let timestamp = data.timestamp
+                    let presencia = data.presencia
+                    chart_temp.options.data[0].dataPoints.push({x: timestamp, y: temperatura})
+
+                    chart_hum.options.data[0].dataPoints.push({x: timestamp, y: humedad})
+
+                    chart_temp.render();
+                    chart_hum.render();
+
+                  });
 
           });
     
-            /* $(function(){
-                let socket = io('http://localhost:3000');
-
-                // Check for connection
-                socket.on("var_temp", function (tempData) {
-                    var dataPoints = [];
-                    var chart = new CanvasJS.Chart("charTemperatura", {
-                        theme: "light2",
-                        axisX: {
-                            labelAngle: -50,
-                            labelFontColor: "rgb(0,75,141)",
-                        },
-                        axisY: {
-                            labelFontSize: 20,
-                            labelFontColor: "dimGrey",
-                            suffix: "°C"
-                        },
-                        data: [{
-                            type: "line",
-                            dataPoints: dataPoints
-                        }]
-                    });
-                    updateData();
-
-
-                    function addData(data) {
-                        console.log("Tamaño de la data: "+data.length);
-                        $.each(data, function (key, value) {
-                            dataPoints.push({label: value[0], y: parseInt(value[1])});
-                        });
-                        chart.render();
-                    }
-
-
-                    function updateData() {
-                        addData(tempData);
-                    }
-
-
-                });
-
-                socket.on("temppromxdia",function (tempprom){
-                    var promPoints = [];
-                    var chart2 = new CanvasJS.Chart("charTempXDiaProm", {
-                        theme: "light2",
-                        axisY: {
-                           labelFontSize: 20,
-                           labelFontColor: "dimGrey",
-                            suffix: "°C"
-                       },
-                       axisX: {
-                           labelAngle: -30
-                       },
-                        data: [{
-                            type: "column",
-                            dataPoints: promPoints
-                        }]
-                       });
-                    updateData();
-
-                    function addData(data) {
-                        $.each(data, function (key, value) {
-                            promPoints.push({y:parseInt(value[1]), label: value[0]   })
-
-                        });
-                        chart2.render();
-                    }
-
-                    function updateData() {
-                        addData(tempprom);
-                    }
-
-                });
-            }); */
 
         </script>
 
@@ -184,7 +134,7 @@
 
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="text-align: center">
-                        <h1 style="margin-left: 680px">TEMPERATURA</h1></nav>
+                        <h1 style="margin-left: 680px">TEMPERATURA - HUMEDAD</h1></nav>
                     <!-- End of Topbar -->
 
                     <!-- Begin Page Content -->
@@ -195,7 +145,7 @@
                             <div class="col-xl-7 col-lg-7" style="margin-left: -150px">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Gráfico</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Temperature</h6>
                                     </div>
                                     <div id="charTemperatura"></div>
                                 </div>
@@ -213,6 +163,33 @@
                         </div>
 
                     </div>
+
+
+                    <div class="container-fluid" style="text-align: center;">
+
+                                        <div class="row" style="margin-left: 150px;">
+
+                                                <div class="col-xl-7 col-lg-7" style="margin-left: -150px">
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">Humidity</h6>
+                                                        </div>
+                                                        <div id="charHumedad"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4" style="margin-left: 150px">
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">Hum Prom x Dia</h6>
+                                                        </div>
+                                                        <div id="charHumXDiaProm"></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
                     <!-- /.container-fluid -->
 
                 </div>

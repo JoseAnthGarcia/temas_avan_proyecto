@@ -22,7 +22,7 @@
         <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script>
             $(function(){
-                let socket = io('http://localhost:3000');
+                let socket = io();
 
                 // Check for connection
                 socket.on("var_temp", function (tempData) {
