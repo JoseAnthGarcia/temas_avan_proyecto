@@ -35,7 +35,7 @@
 
                     for (var j = 0; j < msg.length; j++){
 
-                       var date = new Date(parseInt(msg[j].timeStamp))
+                       var date = new Date(parseInt(msg[j].timeStamp) * 1000)
                        var horita = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
                        dataPoints.push({label: horita, y: msg[j].temperatura})
                        dataPoints2.push({label: horita, y: msg[j].humedad})
@@ -111,7 +111,9 @@
              socket.on("var_temp", function (data) {
                    let humedad = data.humedad
                    let temperatura = data.temperatura
-                   let timestamp = data.timestamp
+
+                   let date = new Date(parseInt(data.timestamp) * 1000)
+                   let timestamp = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
                    let presencia = data.presencia
 
                    chart_temp.options.data[0].dataPoints.push({label: timestamp, y: temperatura})
