@@ -84,7 +84,7 @@
                             labelAngle: -50,
                             labelFontColor: "rgb(0,75,141)",
                             },
-                       axisY: {lineThickness: 1,suffix:"g / m³"},
+                       axisY: {lineThickness: 1,suffix:"%"},
                        data: data2};
 
 
@@ -193,7 +193,7 @@
 
                         <div class="row" style="margin-left: 150px;">
 
-                            <div class="col-xl-7 col-lg-7" style="margin-left: -150px">
+                            <div class="col-xl-6 col-lg-6" style="margin-left: -150px">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Temperature</h6>
@@ -202,7 +202,33 @@
                                 </div>
                             </div>
 
-                            <div class="col-xl-4" style="margin-left: 150px;margin-top:120px">
+                            <!--div class="col-xl-4" style="margin-left: 150px;margin-top:120px">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Temp. Prom</h6>
+                                        <div class="card" style="margin-top:20px">
+                                          <p style="margin-top:20px"><span class="reading"><span id="tt_pp"></span> &deg;C</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div-->
+
+
+                           <div class="col-xl-6 col-lg-6" style="margin-left: 100px">
+                                  <div class="card shadow mb-4">
+                                       <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Humidity</h6>
+                                       </div>
+                                 <div id="charHumedad"></div>
+                           </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container-fluid" style="text-align: center;margin-top: 300px;">
+
+                                        <div class="row" style="margin-left: 150px;margin-bottom: 300px">
+                                        <div class="col-xl-4" style="margin-left: 10px;margin-top:170px">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Temp. Prom</h6>
@@ -212,26 +238,16 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="container-fluid" style="text-align: center;margin-top: 300px;">
-
-                                        <div class="row" style="margin-left: 150px;margin-bottom: 300px">
-
-                                                <div class="col-xl-7 col-lg-7" style="margin-left: -150px">
+                                                <!--div class="col-xl-7 col-lg-7" style="margin-left: -150px">
                                                     <div class="card shadow mb-4">
                                                         <div class="card-header py-3">
                                                             <h6 class="m-0 font-weight-bold text-primary">Humidity</h6>
                                                         </div>
                                                         <div id="charHumedad"></div>
                                                     </div>
-                                                </div>
+                                                </div-->
 
-                                                <div class="col-xl-4" style="margin-left: 150px;margin-top:150px">
+                                                <div class="col-xl-4" style="margin-left: 350px;margin-top:170px">
                                                                <div class="card shadow mb-4">
                                                              <div class="card-header py-3">
                                                              <h6 class="m-0 font-weight-bold text-primary">Hum. Prom</h6>
