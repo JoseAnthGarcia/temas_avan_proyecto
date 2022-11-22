@@ -121,6 +121,11 @@
                    chart_temp.render();
                    chart_hum.render();
 
+                   temp_promedio.push(temperatura)
+                   hum_promedio.push(humedad)
+
+                   document.getElementById('tt_pp').textContent = String(valor_promedio(temp_promedio));
+                   document.getElementById('hh_pp').textContent = String(valor_promedio(hum_promedio));
              });
 
           });
