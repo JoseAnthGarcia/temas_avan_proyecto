@@ -26,26 +26,11 @@
 
               var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
               var dataPoints2 = [];
-              /*var data = [];
-              var dataSeries = { type: "line" };
-                            //var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
-
-              dataSeries.dataPoints = dataPoints;
-              data.push(dataSeries);
-                            //Better to construct options first and then pass it as a parameter
-             var options = {
-              zoomEnabled: true,
-                     animationEnabled: true,
-                     axisY: {
-                    lineThickness: 1
-                   },
-                    data: data
-              };
-
-              var chart_temp = new CanvasJS.Chart("charTemperatura", options);*/
               var temp_promedio = [];
               var hum_promedio = [];
-              $.get("http://localhost:3000/datitos")
+              var chart_temp;
+              var chart_hum;
+              $.get("/datitos")
                 .done(function (msg) {
 
                     for (var j = 0; j < msg.length; j++){
@@ -79,7 +64,7 @@
                                  data: data
                                  };
 
-                   var chart_temp = new CanvasJS.Chart("charTemperatura", options);
+                   chart_temp = new CanvasJS.Chart("charTemperatura", options);
                    chart_temp.render();
                    chart_temp.render();
 
@@ -103,7 +88,7 @@
                        data: data2};
 
 
-                   var chart_hum = new CanvasJS.Chart("charHumedad", options2);
+                   chart_hum = new CanvasJS.Chart("charHumedad", options2);
                    chart_hum.render();
                    chart_hum.render();
 
@@ -121,45 +106,6 @@
 
                     return (vv/(listita.length)).toFixed(4)
                 }
-                //console.log(dataPoints)
-
-              /*var data = [];
-              var dataSeries = { type: "line" };
-              //var dataPoints = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
-              
-              dataSeries.dataPoints = dataPoints;
-              data.push(dataSeries);
-              //Better to construct options first and then pass it as a parameter
-                var options = {
-                    zoomEnabled: true,
-                    animationEnabled: true,
-                    axisY: {
-                      lineThickness: 1
-                    },
-                    data: data  // random data
-                  };*/
-
-             /*chart_temp.render();*/
-
-              /*var data2 = [];
-              var dataSeries2 = { type: "line" };
-              var dataPoints2 = []; // Data de la vista y agregar puntos con formato {x: i,y: y}
-
-              dataSeries2.dataPoints = dataPoints2;
-              data2.push(dataSeries2);
-              //Better to construct options first and then pass it as a parameter
-              var options2 = {
-              zoomEnabled: true,
-              animationEnabled: true,
-              axisY: {lineThickness: 1},
-                     data: data};
-
-
-
-
-
-                  var chart_hum = new CanvasJS.Chart("charHumedad", options);
-                  chart_hum.render();*/
 
              let socket = io();
              socket.on("var_temp", function (data) {
